@@ -1,0 +1,7 @@
+<%= link_to "Download as CSV", "/facebook/posts/#{@uid}/#{@id}.csv" %>
+<% @commentors.each do |commentor| %>
+	<p>
+		<%= link_to commentor.dig("from", "name"), commentor.dig('permalink_url') %>
+	</p>
+<% end %>
+

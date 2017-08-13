@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contest</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <script type="text/javascript">
+    	var fbAppID = "<%= ENV['FACEBOOK_APP_ID'] %>";
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.10&appId=" + fbAppID;
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+      // window.fbAsyncInit = function() {
+      //   FB.init({
+      //     appId: fbAppID,
+      //     version: 'v2.10'
+      //   });
+      //   console.log("fb init");
+      // };
+      // (function(d, s, id){
+      //    var js, fjs = d.getElementsByTagName(s)[0];
+      //    if (d.getElementById(id)) {return;}
+      //    js = d.createElement(s); js.id = id;
+      //    js.src = "//connect.facebook.net/en_US/sdk.js";
+      //    fjs.parentNode.insertBefore(js, fjs);
+      //  }(document, 'script', 'facebook-jssdk'))
+    </script>
+  </head>
+
+  <body>
+  	<div id="fb-root"></div>
+    <% flash.each do |type, message| %>
+      <div style="margin-bottom: 0px;position: absolute;z-index: 999;right: 0px;top: 80px;">
+        <div class="alert alert-info fade in">
+          <button class="close" data-dismiss="alert">×</button>
+          <%= message %>
+        </div>
+      </div>
+    <% end %>
+    <%= yield %>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+<h2>Posts</h2>
+
+<% @facebook_posts.each do |post| %>
+	<p>
+		<%= link_to post["message"], "/facebook/post/#{@uid}/#{post.dig('object_id')}" %>
+	</p>
+<% end %>

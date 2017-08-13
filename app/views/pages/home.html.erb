@@ -1,0 +1,8 @@
+<% unless user_signed_in? %>
+	<%= link_to "Sign Up", new_user_registration_path %>
+	<%= link_to "Sign In", new_user_session_path %>
+<% else %>
+  <% unless current_user.providers.facebook.present? %>
+	  <%= link_to "Integrate with facebook", user_facebook_omniauth_authorize_path, id: "fb-connect" %>
+  <% end %>
+<% end %>
