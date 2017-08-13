@@ -12,7 +12,9 @@ class Post::Commentors
       if tags.present? && tags.count >= 2
         comment.slice("from", "permalink_url")
       end
-    end.compact.uniq
+    end.compact.uniq do |comment|
+      comment.dig("from", "id")
+    end
   end
 
 end
