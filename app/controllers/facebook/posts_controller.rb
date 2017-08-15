@@ -10,10 +10,18 @@ class Facebook::PostsController < ApplicationController
   end
 
   def set_facebook_posts
-    @facebook_posts = facebook.client.get_connection(@uid, 'feed', {
-      limit: 10,
-      fields: ['message', 'object_id', 'link']
-    })
+    @facebook_posts = if page.present?
+      facebook.client.get_page(page)
+    else
+      facebook.client.get_connection(@uid, 'feed', {
+        limit: 10,
+        fields: ['message', 'object_id', 'link', 'created_time']
+      })
+    end
+  end
+
+  def page
+    @page ||= params.permit!.to_h.dig(:page)
   end
 
   def show
@@ -28,16 +36,17 @@ class Facebook::PostsController < ApplicationController
   end
 
   def commentors_csv
-    attributes = %w{name comment_link}
+    attributes = %w{name comment_link created_at}
 
     ::CSV.generate(headers: true) do |csv|
       csv << attributes
 
       @commentors.each do |commentor|
         name = commentor.dig("from", "name")
+        time = commentor.dig("created_time").to_time.in_time_zone
         permalink_url = commentor.dig('permalink_url')
         url = "=HYPERLINK(\"#{permalink_url}\"; \"#{name}\")"
-        row = [commentor.dig("from", "name"), url]
+        row = [commentor.dig("from", "name"), url, time]
         csv << row
       end
     end

@@ -2,6 +2,11 @@
 
 <% @facebook_posts.each do |post| %>
 	<p>
-		<%= link_to post["message"], "/facebook/post/#{@uid}/#{post.dig('object_id')}" %>
+		<%= link_to post["message"], "/facebook/posts/#{@uid}/#{post.dig('object_id')}" %>
+    <br>
+    <%= "Created at: #{post.dig("created_time").to_time.in_time_zone}" %>
 	</p>
 <% end %>
+
+<%= link_to 'Previous', url_for(page: @facebook_posts.previous_page_params) %>
+<%= link_to 'Next', url_for(page: @facebook_posts.next_page_params) %>

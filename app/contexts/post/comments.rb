@@ -13,8 +13,12 @@ class Post::Comments
   def comments
     @comments ||= facebook.client.get_connection(
                     id, "comments", limit: 1000,
-                    fields: [:message_tags, :from, :permalink_url]
+                    fields: attributes
                   )
+  end
+
+  def attributes
+    @attributes ||= [:message_tags, :from, :permalink_url, :created_time]
   end
 
   def facebook

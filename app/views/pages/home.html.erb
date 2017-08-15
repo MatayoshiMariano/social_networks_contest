@@ -4,5 +4,18 @@
 <% else %>
   <% unless current_user.providers.facebook.present? %>
 	  <%= link_to "Integrate with facebook", user_facebook_omniauth_authorize_path, id: "fb-connect" %>
+  <% else %>
+    <%= label_tag(:uid, "Page name:") %>
+    <%= text_field_tag(:uid, "woofobjectosyjuguetes", id: "uid") %>
+    <%= submit_tag("Search", id: "search") %>
   <% end %>
 <% end %>
+
+
+<script type="text/javascript">
+  $("#search").on("click", function(e) {
+    e.preventDefault();
+    var page = $("#uid").val();
+    window.location.href = "/facebook/posts/" + page;
+  })
+</script>

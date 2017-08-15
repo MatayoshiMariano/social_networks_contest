@@ -10,7 +10,7 @@ class Post::Commentors
     comments.flat_map do |comment|
       tags = comment.dig("message_tags")
       if tags.present? && tags.count >= 2
-        comment.slice("from", "permalink_url")
+        comment.slice("from", "permalink_url", "created_time")
       end
     end.compact.uniq do |comment|
       comment.dig("from", "id")
